@@ -1,146 +1,391 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Student Signup | Wellcome to ExamSphere portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Signup | ExamSphere Portal</title>
+  
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #7F00FF, #E100FF);
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       color: #fff;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
       text-align: center;
-      padding: 20px;
-      font-size: 2.2em;
+      padding: 25px;
+      font-size: 2em;
       font-weight: bold;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    header small {
+      display: block;
+      font-size: 0.6em;
+      margin-top: 5px;
+      font-weight: 500;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
     }
 
     .form-container {
-      background: rgba(255,255,255,0.1);
-      border-radius: 15px;
-      padding: 40px 30px;
-      width: 350px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 40px;
+      width: 450px;
+      max-width: 95%;
       text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      backdrop-filter: blur(8px);
-      animation: float 3s ease-in-out infinite;
-      margin: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeInUp 0.8s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .form-container h2 {
-      margin-bottom: 25px;
-      font-size: 1.8em;
-      color: #fff;
+      margin-bottom: 30px;
+      font-size: 2em;
+      color: #333;
+      font-weight: 700;
     }
 
-    .form-container input {
-      width: 90%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 8px;
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    .form-group input:focus {
       outline: none;
+      border-color: #e73c7e;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(231, 60, 126, 0.1);
+      transform: translateY(-2px);
     }
 
-    .form-container button {
-      width: 95%;
-      padding: 12px;
-      margin-top: 15px;
+    .error-message {
+      color: #e74c3c;
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
       border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      font-weight: bold;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
-      background: #ff7eb3;
+      background: linear-gradient(135deg, #e73c7e, #23a6d5);
       color: white;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(231, 60, 126, 0.3);
     }
 
-    .form-container button:hover {
-      background: #ff4f81;
+    button[type="submit"]:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(231, 60, 126, 0.4);
     }
 
-    .form-container .login-link {
-      margin-top: 15px;
-      font-size: 0.9em;
+    button[type="submit"]:active {
+      transform: translateY(-1px);
     }
 
-    .form-container .login-link a {
-      color: #ffe57f;
-      font-weight: bold;
+    .login-link {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #e73c7e;
+      font-weight: 700;
       text-decoration: none;
-      transition: color 0.3s;
+      transition: all 0.3s ease;
     }
 
-    .form-container .login-link a:hover {
-      color: #fff;
+    .login-link a:hover {
+      color: #23a6d5;
       text-decoration: underline;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+    footer {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #eee;
     }
 
-    footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 0.9em;
-      background: rgba(0,0,0,0.2);
+    /* Password strength indicator */
+    .password-strength {
+      height: 4px;
+      border-radius: 2px;
+      margin-top: 8px;
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    .password-strength.weak {
+      background: #e74c3c;
+      width: 33%;
+      display: block;
+    }
+
+    .password-strength.medium {
+      background: #f39c12;
+      width: 66%;
+      display: block;
+    }
+
+    .password-strength.strong {
+      background: #2ecc71;
       width: 100%;
+      display: block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.5em;
+        padding: 20px;
+      }
+
+      .form-container {
+        padding: 30px 25px;
+      }
+
+      .form-container h2 {
+        font-size: 1.6em;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>Welcome to ExamSphere portal<br/>
-    Student Signup</header>
+  <header>
+    Welcome to ExamSphere Portal
+    <small>Student Registration</small>
+  </header>
 
-  <div class="form-container">
-    <h2>Create Account</h2>
-    <form onsubmit="return signupStudent()">
-      <input type="text" id="fullname" placeholder="Full Name" required>
-      <input type="text" id="rollno" placeholder="College Roll No" required>
-      <input type="email" id="email" placeholder="Email ID" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <input type="password" id="confirmpassword" placeholder="Confirm Password" required>
-      <button type="submit">Sign Up</button>
-    </form>
-    <div class="login-link">
-      Already have an account? <a href="index.html">Login</a>
+  <main>
+    <div class="form-container">
+      <h2>Create Account</h2>
+      <form id="signupForm" onsubmit="return signupStudent(event)">
+        <div class="form-group">
+          <label for="fullname">Full Name *</label>
+          <input type="text" id="fullname" placeholder="Enter your full name" required>
+          <span class="error-message" id="nameError">Please enter a valid name</span>
+        </div>
+
+        <div class="form-group">
+          <label for="rollno">College Roll Number *</label>
+          <input type="text" id="rollno" placeholder="Enter your roll number" required>
+          <span class="error-message" id="rollError">Please enter a valid roll number</span>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+          <span class="error-message" id="emailError">Please enter a valid email</span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input type="password" id="password" placeholder="Create a password" required minlength="6">
+          <div class="password-strength" id="passwordStrength"></div>
+          <span class="error-message" id="passwordError">Password must be at least 6 characters</span>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmpassword">Confirm Password *</label>
+          <input type="password" id="confirmpassword" placeholder="Re-enter your password" required>
+          <span class="error-message" id="confirmError">Passwords do not match</span>
+        </div>
+
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
     </div>
-  </div>
+  </main>
 
   <footer>
-    &copy; 2025 Online Exam Portal | All Rights Reserved
+    &copy; 2025 ExamSphere Portal | All Rights Reserved
   </footer>
 
   <script>
-    function signupStudent() {
-      const pass = document.getElementById("password").value;
-      const confirmPass = document.getElementById("confirmpassword").value;
+    // Password strength checker
+    document.getElementById("password").addEventListener("input", function() {
+      const password = this.value;
+      const strengthIndicator = document.getElementById("passwordStrength");
+      
+      if (password.length === 0) {
+        strengthIndicator.className = "password-strength";
+        return;
+      }
+      
+      let strength = 0;
+      if (password.length >= 6) strength++;
+      if (password.length >= 10) strength++;
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+      if (/\d/.test(password)) strength++;
+      if (/[^a-zA-Z0-9]/.test(password)) strength++;
+      
+      if (strength <= 2) {
+        strengthIndicator.className = "password-strength weak";
+      } else if (strength <= 3) {
+        strengthIndicator.className = "password-strength medium";
+      } else {
+        strengthIndicator.className = "password-strength strong";
+      }
+    });
 
-      if (pass !== confirmPass) {
+    /**
+     * Handle student signup
+     */
+    function signupStudent(event) {
+      event.preventDefault();
+      
+      // Get form values
+      const fullname = document.getElementById("fullname").value.trim();
+      const rollno = document.getElementById("rollno").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmpassword").value;
+      
+      // Reset error messages
+      document.querySelectorAll(".error-message").forEach(el => el.style.display = "none");
+      
+      // Validation
+      let isValid = true;
+      
+      if (fullname.length < 2) {
+        document.getElementById("nameError").style.display = "block";
+        isValid = false;
+      }
+      
+      if (rollno.length < 3) {
+        document.getElementById("rollError").style.display = "block";
+        isValid = false;
+      }
+      
+      if (!email.includes("@") || !email.includes(".")) {
+        document.getElementById("emailError").style.display = "block";
+        isValid = false;
+      }
+      
+      if (password.length < 6) {
+        document.getElementById("passwordError").style.display = "block";
+        isValid = false;
+      }
+      
+      if (password !== confirmPassword) {
+        document.getElementById("confirmError").style.display = "block";
         alert("Passwords do not match!");
+        isValid = false;
+      }
+      
+      if (!isValid) {
         return false;
       }
-
-      // ✅ Redirect to student-home.html after signup
-      window.location.href = "student-home.html";
-      return false; // prevent form default submit
+      
+      // Create student data object
+      const studentData = {
+        fullname: fullname,
+        rollno: rollno,
+        email: email,
+        password: password, // In production, this should be hashed!
+        registrationDate: new Date().toLocaleString(),
+        timestamp: Date.now()
+      };
+      
+      // Save to localStorage
+      localStorage.setItem("studentData", JSON.stringify(studentData));
+      
+      // Show success message
+      alert("Registration successful! Redirecting to your dashboard...");
+      
+      // Redirect to student home page
+      setTimeout(() => {
+        window.location.href = "student-home.html";
+      }, 500);
+      
+      return false;
     }
+
+    // Check if user is already logged in
+    window.addEventListener("DOMContentLoaded", () => {
+      const studentData = localStorage.getItem("studentData");
+      if (studentData) {
+        const confirmRedirect = confirm("You are already registered. Go to dashboard?");
+        if (confirmRedirect) {
+          window.location.href = "student-home-updated.html";
+        }
+      }
+    });
   </script>
+
 </body>
 </html>
