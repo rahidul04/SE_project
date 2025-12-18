@@ -3,378 +3,554 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
-  <header>
-  <div class="header-container">
-    <div class="logo">
-      <h1>ExamSphere</h1>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="exam.html">Exams</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="login.html" class="login-btn">Login</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<style>
-  header {
-    background: #67104d;
-    color: #eee;
-    padding: 15px 20px;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-  }
-
-  .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: auto;
-  }
-
-  .logo h1 {
-    margin: 0;
-    color: #ff7eb3;
-    font-size: 1.8em;
-    letter-spacing: 1px;
-  }
-
-  nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
-
-  nav ul li {
-    margin-left: 20px;
-  }
-
-  nav ul li a {
-    text-decoration: none;
-    color: #eee;
-    font-size: 1em;
-    transition: color 0.3s;
-  }
-
-  nav ul li a:hover {
-    color: #ff7eb3;
-  }
-
-  .login-btn {
-    padding: 6px 12px;
-    border: 1px solid #ff7eb3;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-
-  .login-btn:hover {
-    background: #ff7eb3;
-    color: #111;
-  }
-</style>
-
+  <title>ExamSphere - Login</title>
+  
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #7F00FF, #E100FF);
-      height: 100vh;
-      display: flex;
-      flex-direction: column; /* ✅ Top heading ke liye column */
-      justify-content: flex-start; /* ✅ Upar se start */
-      align-items: center;
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    h1 {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 50px;
-      color: aliceblue;
-      margin: 40px 0; /* ✅ upar aur niche thoda gap */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Animated background particles */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+      animation: float 20s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-100vh) rotate(360deg); }
+    }
+
+    /* Header Styles */
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 15px 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .logo h1 {
+      margin: 0;
+      color: #fff;
+      font-size: 1.8em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-left: 25px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1em;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 8px 15px;
+      border-radius: 8px;
+    }
+
+    nav ul li a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .login-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .login-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1.page-title {
+      font-size: 3em;
+      color: #fff;
+      margin-bottom: 50px;
       text-align: center;
-      padding: 15px 0px;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+      animation: fadeInDown 0.8s ease;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Login Container */
     .container {
-      background: #c878d2;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-      width: 350px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 40px 45px;
+      border-radius: 25px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 420px;
+      max-width: 90%;
       text-align: center;
+      animation: fadeInUp 0.8s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    .logo {
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 20px;
-    }
-    .logo img {
-      width: 150px;
-      height: 150px;
-      border-radius: 100%;
+      margin-bottom: 25px;
     }
 
+    .logo-container img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #e73c7e;
+      box-shadow: 0 8px 20px rgba(231, 60, 126, 0.3);
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    /* Toggle Buttons */
     .toggle-buttons {
       display: flex;
-      justify-content: space-around;
-      margin-bottom: 20px;
-    }
-    .toggle-buttons button {
-      flex: 1;
-      padding: 10px;
-      margin: 0 5px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      background: #eee;
-      transition: background 0.3s;
-    }
-    .toggle-buttons button.active {
-      background: #b22c66;
-      color: white;
+      gap: 15px;
+      margin-bottom: 30px;
+      background: #f0f0f0;
+      padding: 6px;
+      border-radius: 50px;
     }
 
+    .toggle-buttons button {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1em;
+      background: transparent;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-buttons button.active {
+      background: linear-gradient(135deg, #e73c7e, #23a6d5);
+      color: white;
+      box-shadow: 0 4px 15px rgba(231, 60, 126, 0.4);
+      transform: scale(1.02);
+    }
+
+    .toggle-buttons button:hover:not(.active) {
+      background: rgba(231, 60, 126, 0.1);
+      color: #e73c7e;
+    }
+
+    /* Forms */
     form {
       display: none;
+      animation: fadeIn 0.4s ease;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     form.active {
       display: block;
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       text-align: left;
+      position: relative;
     }
+
     .form-group label {
       font-size: 14px;
+      font-weight: 600;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      color: #333;
     }
+
     .form-group input {
       width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 14px 18px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #e73c7e;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(231, 60, 126, 0.1);
+      transform: translateY(-2px);
     }
 
     .error {
-      color: red;
+      color: #e74c3c;
       font-size: 12px;
       display: none;
+      margin-top: 5px;
+      font-weight: 500;
     }
 
-    button.login-btn {
+    button.submit-btn {
       width: 100%;
-      padding: 10px;
-      background: #3e41d5;
+      padding: 14px;
+      background: linear-gradient(135deg, #e73c7e, #23a6d5);
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       color: white;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 16px;
       cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(231, 60, 126, 0.3);
     }
-    button.login-btn:hover {
-      background: #4fc3c6;
+
+    button.submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(231, 60, 126, 0.4);
+    }
+
+    button.submit-btn:active {
+      transform: translateY(-1px);
     }
 
     .signup-link {
-      margin-top: 15px;
+      margin-top: 20px;
       font-size: 14px;
+      color: #666;
     }
+
     .signup-link a {
-      color: #180689;
-      font-weight: bold;
+      color: #e73c7e;
+      font-weight: 700;
       text-decoration: none;
+      transition: all 0.3s ease;
     }
+
     .signup-link a:hover {
+      color: #23a6d5;
       text-decoration: underline;
     }
-    
 
+    /* Footer Styles */
+    footer {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      color: #eee;
+      padding: 40px 20px 20px 20px;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-left, .footer-center, .footer-right {
+      flex: 1;
+      margin: 10px;
+      min-width: 250px;
+    }
+
+    .footer-left h2 {
+      color: #23d5ab;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .footer-center h3, .footer-right h3 {
+      margin-bottom: 15px;
+      color: #23d5ab;
+      font-weight: 600;
+    }
+
+    .footer-center ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-center ul li {
+      margin: 8px 0;
+    }
+
+    .footer-center ul li a {
+      text-decoration: none;
+      color: #eee;
+      transition: all 0.3s ease;
+      font-size: 15px;
+    }
+
+    .footer-center ul li a:hover {
+      color: #23d5ab;
+      padding-left: 5px;
+    }
+
+    .footer-right p {
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .social-icons {
+      margin-top: 15px;
+    }
+
+    .social-icons a img {
+      width: 35px;
+      height: 35px;
+      margin: 0 8px;
+      filter: brightness(0) invert(1);
+      transition: all 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .social-icons a img:hover {
+      filter: none;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9em;
+      color: #aaa;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1.page-title {
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
+      .container {
+        padding: 30px 25px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      nav ul li {
+        margin: 5px 0;
+      }
+
+      .footer-container {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- ✅ Heading moved to top center -->
-  <h1>Welcome to ExamSphere Portal </h1>
-
-  <div class="container">
-    <!-- ✅ Centered Logo -->
-    <div class="logo">
-      <img src="logo2.jpg" alt="Logo">
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <h1>ExamSphere</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="exam.html">Exams</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="login.html" class="login-btn">Login</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <!-- Toggle Buttons -->
-    <div class="toggle-buttons">
-      <button id="studentBtn" class="active">Student</button>
-      <button id="adminBtn">Admin</button>
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 class="page-title">Welcome to ExamSphere Portal</h1>
+
+    <div class="container">
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="logo2.jpg" alt="ExamSphere Logo">
+      </div>
+
+      <!-- Toggle Buttons -->
+      <div class="toggle-buttons">
+        <button id="studentBtn" class="active">Student</button>
+        <button id="adminBtn">Admin</button>
+      </div>
+
+      <!-- Student Form -->
+      <form id="studentForm" class="active">
+        <div class="form-group">
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" placeholder="Enter your student ID">
+          <span class="error" id="studentIdError">Please enter Student ID</span>
+        </div>
+        <div class="form-group">
+          <label for="studentPass">Password</label>
+          <input type="password" id="studentPass" placeholder="Enter your password">
+          <span class="error" id="studentPassError">Please enter Password</span>
+        </div>
+        <button type="submit" id="studentLoginBtn" class="submit-btn">Login</button>
+
+        <div class="signup-link">
+          Don't have an account? <a href="student-signup.html">Sign Up</a>
+        </div>
+      </form>
+
+      <!-- Admin Form -->
+      <form id="adminForm">
+        <div class="form-group">
+          <label for="adminId">Admin ID</label>
+          <input type="text" id="adminId" placeholder="Enter your admin ID">
+          <span class="error" id="adminIdError">Please enter Admin ID</span>
+        </div>
+        <div class="form-group">
+          <label for="adminPass">Password</label>
+          <input type="password" id="adminPass" placeholder="Enter your password">
+          <span class="error" id="adminPassError">Please enter Password</span>
+        </div>
+        <button type="submit" id="adminLoginBtn" class="submit-btn">Login</button>
+
+        <div class="signup-link">
+          Don't have an account? <a href="admin-signup.html">Sign Up</a>
+        </div>
+      </form>
     </div>
-
-    <!-- Student Form -->
-    <form id="studentForm" class="active">
-      <div class="form-group">
-        <label for="studentId">Student ID</label>
-        <input type="text" id="studentId">
-        <span class="error" id="studentIdError">Please enter Student ID</span>
-      </div>
-      <div class="form-group">
-        <label for="studentPass">Password</label>
-        <input type="password" id="studentPass">
-        <span class="error" id="studentPassError">Please enter Password</span>
-      </div>
-      <button type="submit" id="studentLoginBtn" class="login-btn">Login</button>
-
-      <!-- ✅ Student Sign Up Link -->
-      <div class="signup-link">
-        Don't have an account? <a href="student-signup.html">Sign Up</a>
-      </div>
-    </form>
-
-    <!-- Admin Form -->
-    <form id="adminForm">
-      <div class="form-group">
-        <label for="adminId">Admin ID</label>
-        <input type="text" id="adminId">
-        <span class="error" id="adminIdError">Please enter Admin ID</span>
-      </div>
-      <div class="form-group">
-        <label for="adminPass">Password</label>
-        <input type="password" id="adminPass">
-        <span class="error" id="adminPassError">Please enter Password</span>
-      </div>
-      <button type="submit" id="adminLoginBtn" class="login-btn">Login</button>
-
-      <!-- ✅ Admin Sign Up Link -->
-      <div class="signup-link">
-        Don't have an account? <a href="admin-signup.html">Sign Up</a>
-      </div>
-    </form>
   </div>
-  <br/>
-  <br/>
+
+  <!-- Footer -->
   <footer>
-    <footer>
-  <div class="footer-container">
-    <div class="footer-left">
-      <h2>ExamSphere</h2>
-      <p>Your trusted online exam portal for students and admins.</p>
-    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <h2>ExamSphere</h2>
+        <p>Your trusted online exam portal for students and admins.</p>
+      </div>
 
-    <div class="footer-center">
-      <h3>Quick Links</h3>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="privacy.html">Privacy Policy</a></li>
-      </ul>
-    </div>
+      <div class="footer-center">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
 
-    <div class="footer-right">
-      <h3>Contact Us</h3>
-      <p>Email: support@examsphere.com</p>
-      <p>Phone: +91-9876543210</p>
-      <div class="social-icons">
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="LinkedIn"></a>
+      <div class="footer-right">
+        <h3>Contact Us</h3>
+        <p>Email: support@examsphere.com</p>
+        <p>Phone: +91-9876543210</p>
+        <div class="social-icons">
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="LinkedIn"></a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="footer-bottom">
-    &copy; 2025 ExamSphere | All Rights Reserved | Made with ❤️ by Team ExamSphere
-  </div>
-</footer>
-
-<style>
-  footer {
-    background: #111;
-    color: #eee;
-    padding: 40px 20px 20px 20px;
-    font-family: Arial, sans-serif;
-    width: 100%;
-  }
-
-  .footer-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: auto;
-    
-  }
-
-  .footer-left, .footer-center, .footer-right {
-    flex: 1;
-    margin: 10px;
-    min-width: 250px;
-  }
-
-  .footer-left h2 {
-    color: #ff7eb3;
-    margin-bottom: 10px;
-  }
-
-  .footer-center h3, .footer-right h3 {
-    margin-bottom: 10px;
-    color: #ff7eb3;
-  }
-
-  .footer-center ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .footer-center ul li {
-    margin: 5px 0;
-  }
-
-  .footer-center ul li a {
-    text-decoration: none;
-    color: #eee;
-    transition: 0.3s;
-  }
-
-  .footer-center ul li a:hover {
-    color: #ff7eb3;
-  }
-
-  .social-icons a img {
-    width: 30px;
-    margin: 0 5px;
-    filter: brightness(0) invert(1);
-    transition: 0.3s;
-  }
-
-  .social-icons a img:hover {
-    filter: none;
-  }
-
-  .footer-bottom {
-    text-align: center;
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid #444;
-    font-size: 0.9em;
-    color: #aaa;
-  }
-</style>
-
-    
+    <div class="footer-bottom">
+      &copy; 2025 ExamSphere | All Rights Reserved | Made with ❤️ by Team ExamSphere
+    </div>
   </footer>
 
   <script>
