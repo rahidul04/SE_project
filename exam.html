@@ -3,246 +3,652 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Exam - Student</title>
+  <title>ExamSphere - Online Exam</title>
+  
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #7F00FF, #E100FF);
-      color: #333;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      position: relative;
+      overflow-x: hidden;
     }
-    header, footer {
-      background: rgba(255, 255, 255, 0.9);
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 20px;
       text-align: center;
-      padding: 15px;
+      font-size: 1.8rem;
       font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
+
+    /* Main Content */
     main {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 30px;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
     }
+
     .card {
-      background: #fff;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      width: 800px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 900px;
+      max-width: 95%;
       text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeInUp 0.8s ease;
     }
-    select, button {
-      padding: 12px;
-      margin: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    button {
-      background: #2575fc;
-      color: white;
-      border: none;
+
+    h2 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 2em;
+      font-weight: 700;
+    }
+
+    /* Topic Selection */
+    .topic-section {
+      margin: 30px 0;
+    }
+
+    select {
+      width: 100%;
+      max-width: 400px;
+      padding: 15px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #f8f9fa;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
     }
-    button:hover {
-      background: #6a11cb;
+
+    select:focus {
+      outline: none;
+      border-color: #e73c7e;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(231, 60, 126, 0.1);
     }
-    .hidden { display: none; }
-    .loading {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-top: 20px;
+
+    button {
+      padding: 14px 40px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #e73c7e, #23a6d5);
+      color: white;
+      box-shadow: 0 6px 20px rgba(231, 60, 126, 0.3);
+      margin: 10px;
     }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(231, 60, 126, 0.4);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Loading Screen */
+    .hidden {
+      display: none;
+    }
+
+    .loading-screen {
+      text-align: center;
+      padding: 40px;
+    }
+
     .spinner {
       border: 5px solid #f3f3f3;
-      border-top: 5px solid #2575fc;
+      border-top: 5px solid #e73c7e;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 60px;
       animation: spin 1s linear infinite;
       margin: 20px auto;
     }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    .timer {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: red;
-      margin: 15px 0;
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
     }
-    .question {
-      text-align: left;
-      margin: 20px 0;
-    }
-    .question p { font-weight: bold; }
-    .result {
+
+    .loading-text {
       font-size: 1.3rem;
       font-weight: bold;
+      color: #333;
       margin-top: 20px;
-      color: #222;
+    }
+
+    /* Timer */
+    .timer {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: 12px;
+      display: inline-block;
+    }
+
+    .timer.warning {
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Questions */
+    #exam-form {
+      text-align: left;
+      margin: 30px 0;
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    #exam-form::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #exam-form::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    #exam-form::-webkit-scrollbar-thumb {
+      background: #e73c7e;
+      border-radius: 10px;
+    }
+
+    .question {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border-left: 4px solid #e73c7e;
+      transition: all 0.3s ease;
+    }
+
+    .question:hover {
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .question p {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .question label {
+      display: block;
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: #fff;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 15px;
+    }
+
+    .question label:hover {
+      border-color: #e73c7e;
+      background: rgba(231, 60, 126, 0.05);
+    }
+
+    .question input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+      accent-color: #e73c7e;
+    }
+
+    .question input[type="radio"]:checked + span {
+      font-weight: 600;
+      color: #e73c7e;
+    }
+
+    .question label:has(input:checked) {
+      border-color: #e73c7e;
+      background: rgba(231, 60, 126, 0.1);
+    }
+
+    /* Result Section */
+    .result {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 30px;
+      padding: 25px;
+      background: linear-gradient(135deg, #e73c7e, #23a6d5);
+      color: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(231, 60, 126, 0.3);
+    }
+
+    .result-details {
+      margin-top: 15px;
+      font-size: 1.1rem;
+    }
+
+    /* Error Message */
+    .error-message {
+      background: #ffe5e5;
+      border: 2px solid #e74c3c;
+      color: #c0392b;
+      padding: 15px;
+      border-radius: 12px;
+      margin: 20px 0;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      color: #eee;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.4rem;
+        padding: 15px;
+      }
+
+      .card {
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 1.5em;
+      }
+
+      .timer {
+        font-size: 1.2rem;
+      }
+
+      button {
+        padding: 12px 30px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>Wellcome to ExamSphere portal - Student Exam</header>
+
+  <header>Welcome to ExamSphere Portal - Student Exam</header>
+
   <main>
     <div class="card">
+      <!-- Topic Selection -->
       <div id="topic-selection">
         <h2>Select Exam Topic</h2>
-        <select id="topic">
-          <option value="">--Choose a Topic--</option>
-          <option value="co">Computer Organization</option>
-          <option value="evs">EVS</option>
-          <option value="toc">Theory of Computation</option>
-          <option value="oop">OOP</option>
-        </select>
-        <br>
-        <button onclick="startExam()">Start Exam</button>
+        <div class="topic-section">
+          <select id="topic">
+            <option value="">--Choose a Topic--</option>
+            <option value="18">Computer Science</option>
+            <option value="17">Science & Nature</option>
+            <option value="19">Mathematics</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="9">General Knowledge</option>
+          </select>
+          <br>
+          <button onclick="startExam()">Start Exam</button>
+        </div>
       </div>
 
-      <div id="loading-screen" class="hidden">
+      <!-- Loading Screen -->
+      <div id="loading-screen" class="loading-screen hidden">
         <div class="spinner"></div>
-        <div class="loading">Loading Exam...</div>
+        <div class="loading-text">Fetching Questions from API...</div>
+        <p style="color: #666; margin-top: 10px;">Please wait while we prepare your exam</p>
       </div>
 
+      <!-- Exam Section -->
       <div id="exam-section" class="hidden">
         <div class="timer" id="timer">Time Left: 10:00</div>
         <form id="exam-form"></form>
         <button id="submit-btn" onclick="submitExam()">Submit Exam</button>
-        <div id="result" class="result"></div>
+        <div id="result" class="result hidden"></div>
       </div>
     </div>
   </main>
-  <footer>&copy; 2025 Online Exam Portal</footer>
+
+  <footer>&copy; 2025 ExamSphere Portal | All Rights Reserved</footer>
 
   <script>
-    const questions = {
-      co: [
-        { q: "What is the full form of ALU?", options: ["Arithmetic Logic Unit", "Array Logic Unit", "Application Logic Unit", "Advanced Logical Unit"], answer: 0 },
-        { q: "Which memory is volatile?", options: ["ROM", "RAM", "Hard Disk", "CD"], answer: 1 },
-        { q: "CPU stands for?", options: ["Central Processing Unit", "Central Program Unit", "Control Processing Unit", "Central Power Unit"], answer: 0 },
-        { q: "Which is faster?", options: ["Cache", "RAM", "ROM", "Hard Disk"], answer: 0 },
-        { q: "Instruction register stores?", options: ["Data", "Instruction", "Program Counter", "Address"], answer: 1 },
-        { q: "Which bus connects CPU to memory?", options: ["Data Bus", "Control Bus", "Address Bus", "All of these"], answer: 3 },
-        { q: "What is pipelining?", options: ["Parallel execution", "Sequential execution", "Memory type", "Register type"], answer: 0 },
-        { q: "Registers are located in?", options: ["RAM", "CPU", "Cache", "ROM"], answer: 1 },
-        { q: "Which is non-volatile?", options: ["RAM", "Cache", "ROM", "Registers"], answer: 2 },
-        { q: "PC register stores?", options: ["Address of next instruction", "Data", "Opcode", "Result"], answer: 0 }
-      ],
-      evs: [
-        { q: "Ozone layer is found in?", options: ["Stratosphere", "Troposphere", "Mesosphere", "Exosphere"], answer: 0 },
-        { q: "Acid rain contains?", options: ["HCl", "H2SO4", "NaCl", "NH3"], answer: 1 },
-        { q: "Global warming is caused by?", options: ["CO2", "O2", "N2", "He"], answer: 0 },
-        { q: "Which gas is greenhouse gas?", options: ["CO2", "CH4", "N2O", "All"], answer: 3 },
-        { q: "Deforestation causes?", options: ["Global warming", "Loss of habitat", "Soil erosion", "All"], answer: 3 },
-        { q: "Renewable resource?", options: ["Coal", "Petrol", "Solar", "Natural gas"], answer: 2 },
-        { q: "EIA stands for?", options: ["Environmental Impact Assessment", "Energy Impact Analysis", "Earth Inspection Act", "Eco Information Assessment"], answer: 0 },
-        { q: "Kyoto protocol deals with?", options: ["Climate change", "Deforestation", "Ozone", "Acid rain"], answer: 0 },
-        { q: "Main source of energy in ecosystem?", options: ["Sun", "Wind", "Water", "Soil"], answer: 0 },
-        { q: "Noise is measured in?", options: ["Decibel", "Hertz", "Watt", "Ampere"], answer: 0 }
-      ],
-      toc: [
-        { q: "DFA stands for?", options: ["Deterministic Finite Automata", "Definite Function Automata", "Dynamic Finite Automata", "Dual Function Automata"], answer: 0 },
-        { q: "CFG stands for?", options: ["Context Free Grammar", "Central Free Grammar", "Control Flow Graph", "Code Free Graph"], answer: 0 },
-        { q: "Which is not regular?", options: ["a+b+", "a*b*", "anbn", "(a+b)*"], answer: 2 },
-        { q: "PDA recognizes?", options: ["Regular languages", "Context-free languages", "Context-sensitive languages", "All"], answer: 1 },
-        { q: "Turing machine was invented by?", options: ["Church", "Post", "Turing", "Von Neumann"], answer: 2 },
-        { q: "Which grammar type is most powerful?", options: ["Type 0", "Type 1", "Type 2", "Type 3"], answer: 0 },
-        { q: "Epsilon transitions are used in?", options: ["NFA", "DFA", "Turing Machine", "PDA"], answer: 0 },
-        { q: "Halting problem is?", options: ["Decidable", "Undecidable", "Regular", "Finite"], answer: 1 },
-        { q: "Subset construction converts?", options: ["DFA to NFA", "NFA to DFA", "CFG to PDA", "TM to DFA"], answer: 1 },
-        { q: "Which is decidable?", options: ["Halting problem", "Regular language membership", "Ambiguity of CFG", "Equivalence of CFG"], answer: 1 }
-      ],
-      oop: [
-        { q: "OOP stands for?", options: ["Object Oriented Programming", "Object Open Programming", "Only Oriented Programming", "Open Oriented Process"], answer: 0 },
-        { q: "Which supports OOP?", options: ["C", "C++", "Assembly", "COBOL"], answer: 1 },
-        { q: "Which is not OOP concept?", options: ["Encapsulation", "Polymorphism", "Abstraction", "Compilation"], answer: 3 },
-        { q: "Which keyword is used for inheritance in Java?", options: ["this", "super", "extends", "inherits"], answer: 2 },
-        { q: "Constructor has?", options: ["Same name as class", "Different name", "Random name", "No name"], answer: 0 },
-        { q: "Overloading is?", options: ["Same name diff params", "Same params diff name", "Multiple inheritance", "None"], answer: 0 },
-        { q: "Which is runtime polymorphism?", options: ["Overloading", "Overriding", "Encapsulation", "Abstraction"], answer: 1 },
-        { q: "Java does not support?", options: ["Encapsulation", "Polymorphism", "Multiple inheritance (classes)", "Abstraction"], answer: 2 },
-        { q: "Which keyword is used for object creation?", options: ["class", "object", "new", "create"], answer: 2 },
-        { q: "Destructor in Java?", options: ["delete()", "~Class()", "finalize()", "destroy()"], answer: 2 }
-      ]
-    };
-
+    let currentQuestions = [];
     let timerInterval;
     let timeLeft = 600; // 10 minutes
     let submitted = false;
+    let selectedTopic = "";
 
-    function startExam() {
+    // API Configuration - Using Open Trivia Database
+    const API_BASE_URL = "https://opentdb.com/api.php";
+
+    /**
+     * Fetch questions from the API
+     * @param {string} category - The category ID for questions
+     * @param {number} amount - Number of questions to fetch
+     */
+    async function fetchQuestionsFromAPI(category, amount = 10) {
+      try {
+        const url = `${API_BASE_URL}?amount=${amount}&category=${category}&type=multiple`;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error("Failed to fetch questions");
+        }
+        
+        const data = await response.json();
+        
+        if (data.response_code !== 0) {
+          throw new Error("No questions available for this category");
+        }
+        
+        // Transform API data to our format
+        return data.results.map((item, index) => {
+          // Decode HTML entities
+          const decodeHTML = (html) => {
+            const txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+          };
+          
+          // Combine correct and incorrect answers, then shuffle
+          const allOptions = [
+            decodeHTML(item.correct_answer),
+            ...item.incorrect_answers.map(ans => decodeHTML(ans))
+          ];
+          
+          // Shuffle options using Fisher-Yates algorithm
+          for (let i = allOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
+          }
+          
+          // Find the index of correct answer after shuffling
+          const correctIndex = allOptions.indexOf(decodeHTML(item.correct_answer));
+          
+          return {
+            q: decodeHTML(item.question),
+            options: allOptions,
+            answer: correctIndex
+          };
+        });
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+        throw error;
+      }
+    }
+
+    /**
+     * Start the exam
+     */
+    async function startExam() {
       const topic = document.getElementById("topic").value;
-      if (!topic) { alert("Please select a topic"); return; }
+      if (!topic) {
+        alert("Please select a topic");
+        return;
+      }
 
+      selectedTopic = topic;
+      
+      // Hide topic selection and show loading
       document.getElementById("topic-selection").classList.add("hidden");
       document.getElementById("loading-screen").classList.remove("hidden");
 
-      setTimeout(() => {
-        document.getElementById("loading-screen").classList.add("hidden");
-        document.getElementById("exam-section").classList.remove("hidden");
-        loadQuestions(topic);
-        startTimer();
-      }, 2000);
+      try {
+        // Fetch questions from API
+        currentQuestions = await fetchQuestionsFromAPI(topic, 10);
+        
+        // Simulate loading time for better UX
+        setTimeout(() => {
+          document.getElementById("loading-screen").classList.add("hidden");
+          document.getElementById("exam-section").classList.remove("hidden");
+          loadQuestions();
+          startTimer();
+        }, 1500);
+        
+      } catch (error) {
+        // Show error message
+        document.getElementById("loading-screen").innerHTML = `
+          <div class="error-message">
+            <strong>Error!</strong> Unable to fetch questions. Please try again.
+            <br><br>
+            <button onclick="location.reload()">Retry</button>
+          </div>
+        `;
+      }
     }
 
-    function loadQuestions(topic) {
+    /**
+     * Load questions into the form
+     */
+    function loadQuestions() {
       const form = document.getElementById("exam-form");
       form.innerHTML = "";
-      questions[topic].forEach((q, index) => {
+      
+      currentQuestions.forEach((q, index) => {
         const div = document.createElement("div");
         div.classList.add("question");
-        div.innerHTML = `<p>Q${index+1}. ${q.q}</p>` +
-          q.options.map((opt, i) => 
-            `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`).join("");
+        
+        let optionsHTML = "";
+        q.options.forEach((opt, i) => {
+          optionsHTML += `
+            <label>
+              <input type="radio" name="q${index}" value="${i}">
+              <span>${opt}</span>
+            </label>
+          `;
+        });
+        
+        div.innerHTML = `
+          <p>Q${index + 1}. ${q.q}</p>
+          ${optionsHTML}
+        `;
+        
         form.appendChild(div);
       });
     }
 
+    /**
+     * Start the exam timer
+     */
     function startTimer() {
       timerInterval = setInterval(() => {
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           submitExam();
+          return;
         }
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
-        document.getElementById("timer").textContent = `Time Left: ${minutes}:${seconds<10?"0":""}${seconds}`;
+        
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const timerElement = document.getElementById("timer");
+        timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        
+        // Add warning class when time is less than 2 minutes
+        if (timeLeft <= 120) {
+          timerElement.classList.add("warning");
+        }
+        
         timeLeft--;
       }, 1000);
     }
 
+    /**
+     * Submit the exam
+     */
     function submitExam() {
-      if (submitted) return; // prevent double submit
+      if (submitted) return; // Prevent double submission
       submitted = true;
 
       clearInterval(timerInterval);
-      let score = 0, attempted = 0;
+      
+      let score = 0;
+      let attempted = 0;
 
-      const topic = document.getElementById("topic").value;
-      questions[topic].forEach((q, i) => {
+      currentQuestions.forEach((q, i) => {
         const ans = document.querySelector(`input[name="q${i}"]:checked`);
         if (ans) {
           attempted++;
-          if (parseInt(ans.value) === q.answer) score++;
+          if (parseInt(ans.value) === q.answer) {
+            score++;
+          }
         }
       });
 
-      let unattempted = 10 - attempted;
-      const emoji = score >= 7 ? "😊" : (score >= 4 ? "😐" : "😢");
+      const unattempted = currentQuestions.length - attempted;
+      const percentage = ((score / currentQuestions.length) * 100).toFixed(1);
+      
+      // Determine emoji based on score
+      let emoji = "😢";
+      let message = "Keep practicing!";
+      let grade = "F";
+      
+      if (percentage >= 80) {
+        emoji = "🎉";
+        message = "Excellent performance!";
+        grade = "A";
+      } else if (percentage >= 60) {
+        emoji = "😊";
+        message = "Good job!";
+        grade = "B";
+      } else if (percentage >= 40) {
+        emoji = "😐";
+        message = "Not bad, but you can do better!";
+        grade = "C";
+      } else {
+        grade = "D";
+      }
 
-      document.getElementById("result").innerHTML =
-        `Your Score: ${score}/10 ${emoji}<br>` +
-        `Attempted: ${attempted} | Unattempted: ${unattempted}`;
+      // Get topic name
+      const topicSelect = document.getElementById("topic");
+      const topicName = topicSelect.options[topicSelect.selectedIndex].text;
 
-      // disable all options
-      document.querySelectorAll("input[type=radio]").forEach(inp => inp.disabled = true);
+      // Save exam result to localStorage
+      const examResult = {
+        topic: topicName,
+        score: score,
+        total: currentQuestions.length,
+        percentage: percentage,
+        grade: grade,
+        attempted: attempted,
+        unattempted: unattempted,
+        date: new Date().toLocaleString(),
+        timestamp: Date.now()
+      };
+
+      // Get existing exam history or create new array
+      let examHistory = JSON.parse(localStorage.getItem("examHistory") || "[]");
+      
+      // Add new result to the beginning of array
+      examHistory.unshift(examResult);
+      
+      // Keep only last 10 exams
+      if (examHistory.length > 10) {
+        examHistory = examHistory.slice(0, 10);
+      }
+      
+      // Save back to localStorage
+      localStorage.setItem("examHistory", JSON.stringify(examHistory));
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `
+        <div style="font-size: 3rem; margin-bottom: 10px;">${emoji}</div>
+        <div>${message}</div>
+        <div style="font-size: 2rem; margin: 15px 0;">Score: ${score}/${currentQuestions.length}</div>
+        <div class="result-details">
+          Percentage: ${percentage}% | Grade: ${grade}<br>
+          Attempted: ${attempted} | Unattempted: ${unattempted}
+        </div>
+        <div style="margin-top: 20px; font-size: 1rem; color: rgba(255,255,255,0.9);">
+          Redirecting to dashboard in <span id="countdown">8</span> seconds...
+        </div>
+      `;
+      resultDiv.classList.remove("hidden");
+
+      // Disable all radio buttons
+      document.querySelectorAll("input[type=radio]").forEach(inp => {
+        inp.disabled = true;
+      });
+      
+      // Disable submit button
       document.getElementById("submit-btn").disabled = true;
+      
+      // Scroll to result
+      resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+      // Countdown and redirect
+      let countdown = 8;
+      const countdownInterval = setInterval(() => {
+        countdown--;
+        const countdownElement = document.getElementById("countdown");
+        if (countdownElement) {
+          countdownElement.textContent = countdown;
+        }
+        
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+          window.location.href = "student-home.html";
+        }
+      }, 1000);
     }
   </script>
 </body>
