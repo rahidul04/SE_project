@@ -2,133 +2,340 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Student Dashboard | Online Exam Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard | ExamSphere Portal</title>
+  
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #7F00FF, #E100FF);
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       color: #fff;
     }
 
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
       text-align: center;
-      padding: 20px;
+      padding: 25px;
       font-size: 2.2em;
       font-weight: bold;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
     }
 
     .card {
-      background: rgba(255,255,255,0.1);
-      border-radius: 15px;
-      padding: 40px 30px;
-      width: 400px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      backdrop-filter: blur(8px);
-      /* animation: float 3s ease-in-out infinite; */
-      margin: auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 40px;
+      width: 600px;
+      max-width: 95%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeInUp 0.8s ease;
+      color: #333;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .card h2 {
-      margin-bottom: 20px;
-      font-size: 1.6em;
+      margin-bottom: 25px;
+      font-size: 2em;
+      color: #333;
+      text-align: center;
     }
 
     .details {
-      text-align: left;
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 15px;
       margin-bottom: 25px;
-      font-size: 1em;
+      border-left: 4px solid #e73c7e;
     }
 
     .details p {
-      margin: 8px 0;
+      margin: 12px 0;
+      font-size: 1.05rem;
+      color: #555;
+    }
+
+    .details strong {
+      color: #333;
+      font-weight: 600;
     }
 
     .exam-section {
-      margin: 20px 0;
+      text-align: center;
+      margin: 25px 0;
     }
 
     .exam-section button {
-      padding: 12px 20px;
+      padding: 14px 40px;
       border: none;
-      border-radius: 8px;
-      font-size: 1em;
+      border-radius: 12px;
+      font-size: 1.1em;
       font-weight: bold;
       cursor: pointer;
-      background: #ff7eb3;
+      background: linear-gradient(135deg, #e73c7e, #23a6d5);
       color: white;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(231, 60, 126, 0.3);
     }
 
     .exam-section button:hover {
-      background: #ff4f81;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(231, 60, 126, 0.4);
+    }
+
+    h3 {
+      margin: 25px 0 15px;
+      color: #333;
+      font-size: 1.5em;
+      border-bottom: 2px solid #e73c7e;
+      padding-bottom: 10px;
     }
 
     .exam-list {
-      text-align: left;
       margin: 20px 0;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .exam-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .exam-list::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .exam-list::-webkit-scrollbar-thumb {
+      background: #e73c7e;
+      border-radius: 10px;
     }
 
     .exam-item {
-      background: rgba(255,255,255,0.15);
-      padding: 10px;
-      border-radius: 8px;
-      margin: 8px 0;
+      background: linear-gradient(135deg, rgba(231, 60, 126, 0.1), rgba(35, 166, 213, 0.1));
+      padding: 15px;
+      border-radius: 12px;
+      margin: 10px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-left: 4px solid #e73c7e;
+      transition: all 0.3s ease;
+      animation: slideIn 0.5s ease;
     }
 
-    .change-pass {
-      margin-top: 25px;
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .exam-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .exam-item-left {
+      flex: 1;
+    }
+
+    .exam-item-topic {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .exam-item-date {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .exam-item-right {
+      text-align: right;
+    }
+
+    .exam-item-score {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #e73c7e;
+    }
+
+    .exam-item-grade {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    .grade-A {
+      background: #2ecc71;
+      color: white;
+    }
+
+    .grade-B {
+      background: #3498db;
+      color: white;
+    }
+
+    .grade-C {
+      background: #f39c12;
+      color: white;
+    }
+
+    .grade-D, .grade-F {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .no-exams {
       text-align: center;
-    }
-    .edit-profile{
-        font-size: 1em;
-        font-weight: bold;
-        padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      background: #ffe57f;
-      color: #333;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-
-    }
-    .change-pass button {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      background: #ffe57f;
-      color: #333;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
+      padding: 30px;
+      color: #999;
+      font-style: italic;
     }
 
-    .change-pass button:hover {
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .action-buttons button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-profile-btn {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+    }
+
+    .edit-profile-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(106, 17, 203, 0.4);
+    }
+
+    .change-pass-btn {
+      background: #ffe57f;
+      color: #333;
+    }
+
+    .change-pass-btn:hover {
       background: #ffd54f;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      transform: scale(1.05);
     }
 
     footer {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
       text-align: center;
-      padding: 15px;
+      padding: 20px;
       font-size: 0.9em;
-      background: rgba(0,0,0,0.2);
-      width: 100%;
+      color: #eee;
+    }
+
+    /* Notification Badge */
+    .new-badge {
+      display: inline-block;
+      background: #e74c3c;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.6em;
+        padding: 20px;
+      }
+
+      .card {
+        padding: 30px 20px;
+      }
+
+      .card h2 {
+        font-size: 1.6em;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .action-buttons button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -136,68 +343,160 @@
 
   <header>Student Dashboard</header>
 
-  <div class="card">
-    <h2>Welcome, Student</h2>
-    <div class="details">
-      <p><strong>Name:</strong> Rahidul Sekh</p>
-      <p><strong>Roll No:</strong> CSE2023007</p>
-      <p><strong>Email:</strong> rahidul@example.com</p>
-    </div>
-
-    <div class="exam-section">
-      <button onclick="location.href='exam.html'">Exam</button>
-    </div>
-
-    <h3>Given Exams</h3>
-    <div class="exam-list">
-      <div class="exam-item">
-        <span>Math Test</span>
-        <span>85%</span>
+  <main>
+    <div class="card">
+      <h2 id="welcomeMessage">Welcome, Student!</h2>
+      
+      <div class="details" id="studentDetails">
+        <p><strong>Name:</strong> <span id="studentName">Loading...</span></p>
+        <p><strong>Roll No:</strong> <span id="studentRoll">Loading...</span></p>
+        <p><strong>Email:</strong> <span id="studentEmail">Loading...</span></p>
+        <p><strong>Member Since:</strong> <span id="registrationDate">Loading...</span></p>
       </div>
-      <div class="exam-item">
-        <span>Physics Test</span>
-        <span>78%</span>
-      </div>
-      <div class="exam-item">
-        <span>C Programming</span>
-        <span>92%</span>
-      </div>
-    </div>
-    <div 
-  <button 
-    style="padding:12px 25px;
-           font-size:16px;
-           font-family:Poppins, sans-serif;
-           font-weight:600;
-           color:#fff;
-           background:linear-gradient(135deg,#6a11cb,#2575fc);
-           border:none;
-           border-radius:10px;
-           cursor:pointer;
-           box-shadow:0 4px 10px rgba(0,0,0,0.2);
-           transition:all 0.3s ease;"
-    onmouseover="this.style.transform='scale(1.1)'"
-    onmouseout="this.style.transform='scale(1)'">
-    ✏️ Edit Profile
-  </button>
-    </div>
 
-    <div class="change-pass">
-      <button onclick="location.href='change-password.html'"">Change Password</button>
+      <div class="exam-section">
+        <button onclick="location.href='exam.html'">📝 Take New Exam</button>
+      </div>
+
+      <h3>Recent Exam History <span id="newBadge" class="new-badge" style="display: none;">NEW</span></h3>
+      <div class="exam-list" id="examList">
+        <div class="no-exams">No exams taken yet. Start your first exam!</div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="edit-profile-btn" onclick="alert('Edit Profile feature coming soon!')">
+          ✏️ Edit Profile
+        </button>
+        <button class="change-pass-btn" onclick="location.href='change-password.html'">
+          🔒 Change Password
+        </button>
+        <button onclick="logout()" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white;">
+          🚪 Logout
+        </button>
+      </div>
     </div>
-  </div>
+  </main>
 
   <footer>
-    &copy; 2025 Online Exam Portal | All Rights Reserved
+    &copy; 2025 ExamSphere Portal | All Rights Reserved
   </footer>
 
   <script>
-    function startExam() {
-      alert("Exam button clicked! (Demo only)");
+    /**
+     * Load student data from localStorage
+     */
+    function loadStudentData() {
+      const studentData = JSON.parse(localStorage.getItem("studentData") || "{}");
+      
+      if (studentData.fullname) {
+        // Update welcome message
+        document.getElementById("welcomeMessage").textContent = `Welcome, ${studentData.fullname.split(' ')[0]}!`;
+        
+        // Update student details
+        document.getElementById("studentName").textContent = studentData.fullname;
+        document.getElementById("studentRoll").textContent = studentData.rollno;
+        document.getElementById("studentEmail").textContent = studentData.email;
+        document.getElementById("registrationDate").textContent = studentData.registrationDate || "N/A";
+      } else {
+        // No student data found, show default or redirect to signup
+        document.getElementById("welcomeMessage").textContent = "Welcome, Guest!";
+        document.getElementById("studentName").textContent = "Guest User";
+        document.getElementById("studentRoll").textContent = "N/A";
+        document.getElementById("studentEmail").textContent = "Not registered";
+        document.getElementById("registrationDate").textContent = "N/A";
+        
+        // Optional: Show a message to register
+        setTimeout(() => {
+          const shouldRegister = confirm("You haven't registered yet. Would you like to sign up?");
+          if (shouldRegister) {
+            window.location.href = "student-signup.html";
+          }
+        }, 1000);
+      }
     }
-    function changePassword() {
-      alert("Change Password clicked! (Demo only)");
+
+    /**
+     * Load and display exam history from localStorage
+     */
+    function loadExamHistory() {
+      const examList = document.getElementById("examList");
+      const examHistory = JSON.parse(localStorage.getItem("examHistory") || "[]");
+      
+      if (examHistory.length === 0) {
+        examList.innerHTML = '<div class="no-exams">No exams taken yet. Start your first exam!</div>';
+        return;
+      }
+
+      // Check if there's a new exam (taken within last 30 seconds)
+      const now = Date.now();
+      const hasNewExam = examHistory.some(exam => (now - exam.timestamp) < 30000);
+      
+      if (hasNewExam) {
+        document.getElementById("newBadge").style.display = "inline-block";
+        
+        // Hide badge after 5 seconds
+        setTimeout(() => {
+          document.getElementById("newBadge").style.display = "none";
+        }, 5000);
+      }
+
+      // Build the exam list HTML
+      let html = "";
+      examHistory.forEach((exam, index) => {
+        const isNew = (now - exam.timestamp) < 30000;
+        
+        html += `
+          <div class="exam-item" style="animation-delay: ${index * 0.1}s">
+            <div class="exam-item-left">
+              <div class="exam-item-topic">
+                ${exam.topic}
+                ${isNew ? '<span class="new-badge">NEW</span>' : ''}
+              </div>
+              <div class="exam-item-date">${exam.date}</div>
+            </div>
+            <div class="exam-item-right">
+              <div class="exam-item-score">${exam.percentage}%</div>
+              <span class="exam-item-grade grade-${exam.grade}">Grade ${exam.grade}</span>
+            </div>
+          </div>
+        `;
+      });
+      
+      examList.innerHTML = html;
     }
+
+    /**
+     * Clear exam history (for testing purposes)
+     */
+    function clearExamHistory() {
+      if (confirm("Are you sure you want to clear all exam history?")) {
+        localStorage.removeItem("examHistory");
+        loadExamHistory();
+      }
+    }
+
+    /**
+     * Logout function
+     */
+    function logout() {
+      if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem("studentData");
+        localStorage.removeItem("examHistory");
+        alert("Logged out successfully!");
+        window.location.href = "login.html";
+      }
+    }
+
+    // Load student data and exam history when page loads
+    window.addEventListener("DOMContentLoaded", () => {
+      loadStudentData();
+      loadExamHistory();
+    });
+
+    // Optional: Add a button to clear history (for testing)
+    // Uncomment the line below to add a clear button
+    // document.querySelector('.action-buttons').innerHTML += '<button onclick="clearExamHistory()" style="background: #e74c3c; color: white;">Clear History</button>';
   </script>
+
 </body>
 </html>
